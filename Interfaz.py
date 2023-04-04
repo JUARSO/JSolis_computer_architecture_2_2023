@@ -188,7 +188,7 @@ tablaMemoria.insert("", "end", values=("0B1111", "0xFFFF"))
 # Crear el título de la tabla para el procesador #1
 memoriaLabel = ttk.Label(ventana, text="Memoria", font=("Arial", 12))
 ultimaEjecucionEjecutada = ttk.Label(ventana, text='Ultima instrucion ejecutada:', font=('Arial', 12))
-# Posicionar la tabla y el título en la ventana para el procesador #1
+# Posicionar la tabla y el título en la ventana para el procesador #1                   +++y 5-*/.7b53c e6
 ultimaEjecucionEjecutada.place(x=20, y= 650)
 tablaMemoria.place(x=20, y=270, width=270, height=360)
 memoriaLabel.place(x=20, y=240)
