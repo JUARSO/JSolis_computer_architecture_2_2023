@@ -1,4 +1,4 @@
-from BloqueCacheL1 import BloqueCacheL1
+from Clases.BloqueCacheL1 import BloqueCacheL1
 import numpy as np
 
 class CachceL1:

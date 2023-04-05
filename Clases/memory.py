@@ -1,4 +1,4 @@
-from BloqueDeMemoria import bloqueMemoria
+from Clases.BloqueDeMemoria import bloqueMemoria
 
 
 class Memoria:

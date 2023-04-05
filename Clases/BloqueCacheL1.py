@@ -1,4 +1,4 @@
-from generadorDeInstruciones import *
+from Clases.generadorDeInstruciones import *
 
 class BloqueCacheL1():
     def __init__(self, numero, cohenrecia, dato , dirrecionMemoria):

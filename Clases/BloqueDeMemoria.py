@@ -1,4 +1,4 @@
-from generadorDeInstruciones import *
+from Clases.generadorDeInstruciones import *
 
 class bloqueMemoria:
     def __init__(self,numero, dato):

@@ -1,9 +1,9 @@
 import time
-from Controlador import Controlador
-from generadorDeInstruciones import *
+from Clases.Controlador import Controlador
+from Clases.generadorDeInstruciones import *
 
 
-class CPU:
+class Cpu:
     def __init__(self, numero, bus, mutex, iterfaceData):
         self.numero = numero
         self.controlador = Controlador()
@@ -40,10 +40,10 @@ class CPU:
                 self.instruccionActual = "P" + str(self.numero) + ": WRITE " + instrucion[1] + ";" + instrucion[2]
                 actions = self.controlador.write(int(instrucion[1], 2), int(instrucion[2], 16))
             elif instrucion[0] == 'read':
-                self.currentInstruction = "P" + str(self.number) + ": READ " + instrucion[1]
+                self.instruccionActual = "P" + str(self.number) + ": READ " + instrucion[1]
                 actions = self.controlador.readPetition(int(instrucion[1], 2))
             self.log(self.instruccionActual + " cache: |" + self.controlador.l1Cache.getString())
-            self.interfaceData.lastInstruction = self.currentInstruction
+            self.interfaceData.ultimaInstruccion = self.instruccionActual
             self.manageBus(actions)
             self.ultimaInstruccion = self.instruccionActual
             self.applyMode()
@@ -98,7 +98,7 @@ class CPU:
             time.sleep(self.interfaceData.period)
 
     def log(self, string):
-        name = 'file' + str(self.numero) + 'txt'
+        name = 'file' + str(self.numero) + '.txt'
         file1 = open(name, "a")
         file1.write("\n")
         file1.write(string)

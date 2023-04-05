@@ -1,4 +1,4 @@
-from CacheL1 import *
+from Clases.CacheL1 import *
 
 class Controlador:
     def __init__(self):
