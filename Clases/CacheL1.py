@@ -32,13 +32,13 @@ class CachceL1:
             return None
 
     def getBloqueDeRemplazo(self, dirrecionMemoria):
-        selector = round(np.random.randint(0, 799)) // 100
+        selector = round(np.random.randint(0, 199)) // 100
         set = self.getSet(dirrecionMemoria % 2)
         block = set[selector]
         return block
     
     def getBloqueLibre(self, dirrecionMemoria):
-        set = self.getSet(dirrecionMemoria)
+        set = self.getSet(dirrecionMemoria % 2)
         for block in set:
             if block.getCoherencia()  == 'I':
                 return block
@@ -52,9 +52,9 @@ class CachceL1:
         else:
             return bloque
         
-    def getString(self):
-        dato = ''
-        for bloque in self.getTodosLosBloques():
-            dato += bloque.getString()
-            dato += '\n'
-        return dato
+    def obtencionDeString(self):
+        data=""
+        for block in self.getTodosLosBloques():
+            data+=block.getString()
+            data+="\n"
+        return data

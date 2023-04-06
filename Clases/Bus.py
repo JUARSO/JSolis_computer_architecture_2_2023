@@ -3,7 +3,7 @@ from Clases.memory import Memoria
 class Bus:
     def __init__(self):
         self.coneciones = []
-        self.Memoria = Memoria()
+        self.memoria = Memoria()
 
     def writeEnMemoria(self, direccionMemoria, valor):
         bloqueMemoria = self.memoria.getBloqueMemoria(direccionMemoria)

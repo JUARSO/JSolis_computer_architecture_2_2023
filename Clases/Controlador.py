@@ -5,20 +5,20 @@ class Controlador:
         self.l1Cache = CachceL1()
 
     def readMiss(self, dirrecionMemoria):
-        bloqueMemoria = self.l1Cache.buscarDatos(dirrecionMemoria)
-        if bloqueMemoria is None:
-            None
-        if bloqueMemoria.getCoherencia() == "M":
-            bloqueMemoria.getCoherencia("O")
-            return bloqueMemoria.getDato()
-        elif bloqueMemoria.getCoherencia() == "O":
-            return bloqueMemoria.getDato()
-        elif bloqueMemoria.getCoherencia() == "E":
-            bloqueMemoria.getCoherencia("S")
-            return bloqueMemoria.getDato()
-        elif bloqueMemoria.getCoherencia() == "S":
-            return bloqueMemoria.getDato()
-        elif bloqueMemoria.getCoherencia() == "I":
+        block = self.l1Cache.buscarDatos(dirrecionMemoria)
+        if block is None:
+            return None
+        if block.getCoherence() == "M":
+            block.setCoherence("O")
+            return block.getData()
+        elif block.getCoherence() == "O":
+            return block.getData()
+        elif block.getCoherence() == "E":
+            block.setCoherence("S")
+            return block.getData()
+        elif block.getCoherence() == "S":
+            return block.getData()
+        elif block.getCoherence() == "I":
             return None
     
     def write(self, dirrecionMemoria, valor):

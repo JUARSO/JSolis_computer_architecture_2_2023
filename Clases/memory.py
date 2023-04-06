@@ -20,7 +20,7 @@ class Memoria:
     def getString(self):
         dato =''
         for bloque  in self.bloquesDeMemoria:
-            dato += bloqueMemoria.getString()
+            dato += bloque.getString()
             dato += '/'
             if bloque.numero%2 == 1:
                 dato +="\n"

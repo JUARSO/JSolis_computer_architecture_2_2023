@@ -4,6 +4,7 @@ from tkinter import ttk
 from Clases.Bus import Bus
 from Clases.cpu import Cpu
 from threading import Lock, Thread
+from Clases.CacheL1 import *
 from Clases.interfaceData import InterfaceData
 from tkinter import *
 
@@ -11,15 +12,15 @@ from tkinter import *
 mutex = Lock()
 bus = Bus()
 interfaceData = InterfaceData()
-procesor0 = Cpu(0, bus, mutex, interfaceData)
-procesor1 = Cpu(1, bus, mutex, interfaceData)
-procesor2 = Cpu(2, bus, mutex, interfaceData)
-procesor3 = Cpu(3, bus, mutex, interfaceData)
-processorlist = [procesor0, procesor1, procesor2, procesor3]
-bus.coneciones.append(procesor0)
-bus.coneciones.append(procesor1)
-bus.coneciones.append(procesor2)
-bus.coneciones.append(procesor3)
+procesador0 = Cpu(0, bus, mutex, interfaceData)
+procesador1 = Cpu(1, bus, mutex, interfaceData)
+procesador2 = Cpu(2, bus, mutex, interfaceData)
+procesador3 = Cpu(3, bus, mutex, interfaceData)
+processorlist = [procesador0, procesador1, procesador2, procesador3]
+bus.coneciones.append(procesador0)
+bus.coneciones.append(procesador0)
+bus.coneciones.append(procesador0)
+bus.coneciones.append(procesador0)
 
 
 
@@ -28,10 +29,10 @@ def createProcessorsAux(processor):
 
 
 def createProcessorsThreads():
-    Thread(target=createProcessorsAux, args=(procesor0,), daemon=True).start()
-    Thread(target=createProcessorsAux, args=(procesor1,), daemon=True).start()
-    Thread(target=createProcessorsAux, args=(procesor2,), daemon=True).start()
-    Thread(target=createProcessorsAux, args=(procesor3,), daemon=True).start()
+    Thread(target=createProcessorsAux, args=(procesador0,), daemon=True).start()
+    Thread(target=createProcessorsAux, args=(procesador1,), daemon=True).start()
+    Thread(target=createProcessorsAux, args=(procesador2,), daemon=True).start()
+    Thread(target=createProcessorsAux, args=(procesador3,), daemon=True).start()
 
 
 if __name__ == '__main__':
@@ -41,23 +42,23 @@ if __name__ == '__main__':
 def updatedata():
     while 1:
         labelp0.config(
-            text="Procesador 0:\nultima instrucción ejecutada: " + procesor0.lastInstruction+ "\nultima instrucción genereda: "+procesor0.currentInstruction + "\n" + procesor0.controller.l1cache.getstring())
+            text="Procesador 0:\nultima instrucción ejecutada: " + procesador0.ultimaInstruccion+ "\nultima instrucción genereda: "+procesador0.instruccionActual + "\n" + procesador0.controlador.l1Cache.obtencionDeString())
         labelp1.config(
-            text="Procesador 1:\nultima instrucción ejecutada: " + procesor0.lastInstruction+ "\nultima instrucción genereda: "+procesor1.currentInstruction + "\n" + procesor1.controller.l1cache.getstring())
+            text="Procesador 1:\nultima instrucción ejecutada: " + procesador1.ultimaInstruccion+ "\nultima instrucción genereda: "+procesador1.instruccionActual + "\n" + procesador1.controlador.l1Cache.obtencionDeString())
         labelp2.config(
-            text="Procesador 2:\nultima instrucción ejecutada: " + procesor0.lastInstruction+ "\nultima instrucción genereda: "+procesor2.currentInstruction + "\n" + procesor2.controller.l1cache.getstring())
+            text="Procesador 2:\nultima instrucción ejecutada: " + procesador2.ultimaInstruccion+ "\nultima instrucción genereda: "+procesador2.instruccionActual + "\n" + procesador2.controlador.l1Cache.obtencionDeString())
         labelp3.config(
-            text="Procesador 3:\nultima instrucción ejecutada: " +procesor0.lastInstruction+ "\nultima instrucción genereda: "+procesor3.currentInstruction + "\n" + procesor3.controller.l1cache.getstring())
+            text="Procesador 3:\nultima instrucción ejecutada: " + procesador3.ultimaInstruccion+ "\nultima instrucción genereda: "+procesador3.instruccionActual + "\n" + procesador3.controlador.l1Cache.obtencionDeString())
         labelmem.config(
-            text="memoria:\n" + bus.memory.getstring())
-        if procesor0.continueProcess:
+            text="memoria:\n" + bus.memoria.getString())
+        if procesador0.continueProcess:
             pausa="activo"
         else:
             pausa="pausa"
         labelinformation.config(
-            text="ultima instruccion: " + interfaceData.lastInstruction +
-                 "\n" + "tiempo por ciclo: " + str(interfaceData.period) + " segundos\n" +
-                 "modo: " + interfaceData.mode + "\n"+"estado: "+pausa)
+            text="ultima instruccion: " + interfaceData.ultimaInstrucion +
+                 "\n" + "tiempo por ciclo: " + str(interfaceData.periodo) + " segundos\n" +
+                 "modo: " + interfaceData.modo + "\n"+"estado: "+pausa)
         time.sleep(1)
 
     # creating the tkinter window
@@ -121,7 +122,7 @@ textdata = Entry(Main_window)
 
 
 def setInstruction():
-    if interfaceData.mode=="manual" or not procesor0.continueProcess:
+    if interfaceData.mode=="manual" or not procesador0.continueProcess:
         data = textdata.get()
         processor = int(comboprocessor.get()[1])
         memoryaddress = combomemory.get()
