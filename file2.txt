@@ -1,5 +1,0 @@
-
- cache: |bloque: 0, coherencia: I, dato: 0, dirección: 0
-bloque: 1, coherencia: I, dato: 0, dirección: 0
-bloque: 2, coherencia: I, dato: 0, dirección: 0
-bloque: 3, coherencia: I, dato: 0, dirección: 0
