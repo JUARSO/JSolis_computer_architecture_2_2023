@@ -49,7 +49,7 @@ class MemoryBlock:
     '''
 
     def getstring(self):
-        return "bloque: "+str(decimalToBinario(self.number, 3))+", dato: "+str(self.data)
+        return [str(decimalToBinario(self.number, 3)), str(self.data)]
 
 '''
 /*
@@ -84,10 +84,9 @@ class Memory:
     '''
 
     def getstring(self):
-        data=""
+        data=[]
         for block in self.blocks:
-            data+=block.getstring()
-            data+="\n"
+            data+=[block.getstring()]
         return data
 
 '''
@@ -158,8 +157,7 @@ class L1CacheBlock():
     */
     '''
     def getstring(self):
-        return "bloque: " + str(self.number) + ", coherencia: " + self.coherence + ", dato: " + str(
-            self.data) + ", dirección: " + str(self.address)
+        return ['B'+ str(self.number) , str(self.coherence) ,  str(self.address), str(self.data)]
 
 '''
 /*
@@ -251,8 +249,7 @@ class L1Cache:
     */
     '''
     def getstring(self):
-        data=""
+        data=[]
         for block in self.getAllBlocks():
-            data+=block.getstring()
-            data+="\n"
+            data+=[block.getstring()]
         return data

@@ -12,7 +12,7 @@ class InterfaceData:
     def __init__(self):
         self.mode="time"
         self.lastInstruction=""
-        self.period = 10
+        self.period = 3
 
 """
 /*
@@ -138,11 +138,13 @@ class Cpu:
         self.controller = Controller() #Controlador del procesador
         self.bus = bus #Bus del procesador
         self.currentInstruction = "" #Instrucion Actual
+        self.currentInstructionList = []
         self.mutex = mutex #Protecion de los recursos compartidos
         self.interfaceData = interfaceData #Interface de datos
         self.manualInstruction = [] #Lista de instruciones
         self.nextCycle = False #Siguiente ciclo
         self.lastInstruction = "" #Ultima instrucion
+        self.lastInstructionList = []
         self.continueProcess = True #Continue con el proceso
     """
     /*
@@ -168,13 +170,16 @@ class Cpu:
 
             actions = []
             if instruction[0] == "calc": #Si la instrucin es CALC
-                self.currentInstruction = "P" + str(self.number) + ": CALC" #Instrucin Actua;
+                self.currentInstruction = "P" + str(self.number) + " CALC:" #Instrucin Actua;
+                self.currentInstructionList = ['P'+ str(self.number) , " CALC:"]
                 actions = [["noAction"]] #No hace nada
             elif instruction[0] == "write": #En caso que la isntrcuin sea un WRITE
-                self.currentInstruction = "P" + str(self.number) + ": WRITE " + instruction[1] + ";" + instruction[2] #Se escribe en la instrucion
+                self.currentInstruction = "P" + str(self.number) + " WRITE:" + instruction[1]  + instruction[2] #Se escribe en la instrucion
+                self.currentInstructionList =  [ 'P' + str(self.number) + " WRITE:" + instruction[1] +" "+ instruction[2]]               
                 actions = self.controller.write(int(instruction[1], 2), int(instruction[2], 16)) #Envia la accion
             elif instruction[0] == "read": #Si la instrucion es un reas
-                self.currentInstruction = "P" + str(self.number) + ": READ " + instruction[1] #Instrucion de read
+                self.currentInstruction = "P" + str(self.number) + " READ:" + instruction[1] #Instrucion de read
+                self.currentInstructionList = ["P" + str(self.number) + " READ:" + instruction[1]]
                 actions = self.controller.readPetition(int(instruction[1], 2)) #Se agrega la accion
             #self.log(self.currentInstruction + " cache: |" + self.controller.l1cache.getstring())
             self.interfaceData.lastInstruction = self.currentInstruction #se agrega la isntruccion
@@ -237,7 +242,7 @@ class Cpu:
         if self.interfaceData.mode == "manual":#Revisa si el tipo de ejecucion es manual
             while True: 
                 if self.nextCycle:
-                    self.nextCycle = False#Se cambia el siguiente ciclo
+                    self.nextCycle = False #Se cambia el siguiente ciclo
                     break
         else:
             while True:

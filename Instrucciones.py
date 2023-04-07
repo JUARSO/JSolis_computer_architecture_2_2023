@@ -7,13 +7,14 @@ La funncion de generar instrucion utiliza una distribucion geometrica por lo cua
 entre el 0 y el 2 para generar el tipo de instruciopn
 '''
 def generarInstucion():
-    valorInstruccion = np.random.randint(0, 2) #Distribucion geometrica
+    valorInstruccion = np.random.randint(0, 3) #Distribucion geometrica
+    print(valorInstruccion)
     if valorInstruccion == 0:
         return generarRead()
     if valorInstruccion ==1:
         return generarWrite()
-    elif valorInstruccion == 2:
-        return ['CALC']
+    else:
+        return ['calc']
     
 """
 En caso que el valor de la instrucion generado por la distribucion probabilistica se 0 
