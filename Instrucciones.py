@@ -8,7 +8,6 @@ entre el 0 y el 2 para generar el tipo de instruciopn
 '''
 def generarInstucion():
     valorInstruccion = np.random.randint(0, 3) #Distribucion geometrica
-    print(valorInstruccion)
     if valorInstruccion == 0:
         return generarRead()
     if valorInstruccion ==1:

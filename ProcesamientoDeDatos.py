@@ -12,7 +12,7 @@ class InterfaceData:
     def __init__(self):
         self.mode="time"
         self.lastInstruction=""
-        self.period = 3
+        self.period = 10
 
 """
 /*
@@ -146,13 +146,8 @@ class Cpu:
         self.lastInstruction = "" #Ultima instrucion
         self.lastInstructionList = []
         self.continueProcess = True #Continue con el proceso
-    """
-    /*
-    Cambiar el sistema para agregar una instrucion de manera manual
-    */
-    """
-    def setmanualInstruction(self, instruction):
-        self.manualInstruction = instruction
+
+
     """
     /*
     Funcion que obtiene la isntrucion Actual
@@ -170,16 +165,14 @@ class Cpu:
 
             actions = []
             if instruction[0] == "calc": #Si la instrucin es CALC
-                self.currentInstruction = "P" + str(self.number) + " CALC:" #Instrucin Actua;
-                self.currentInstructionList = ['P'+ str(self.number) , " CALC:"]
+                self.currentInstruction = "P" + str(self.number) + " CALC: " #Instrucin Actua;
+                self.currentInstructionList = ['P'+ str(self.number) , " CALC: "]
                 actions = [["noAction"]] #No hace nada
             elif instruction[0] == "write": #En caso que la isntrcuin sea un WRITE
-                self.currentInstruction = "P" + str(self.number) + " WRITE:" + instruction[1]  + instruction[2] #Se escribe en la instrucion
-                self.currentInstructionList =  [ 'P' + str(self.number) + " WRITE:" + instruction[1] +" "+ instruction[2]]               
+                self.currentInstruction = "P" + str(self.number) + " WRITE: " + instruction[1] + ' ' + instruction[2] #Se escribe en la instrucion
                 actions = self.controller.write(int(instruction[1], 2), int(instruction[2], 16)) #Envia la accion
             elif instruction[0] == "read": #Si la instrucion es un reas
-                self.currentInstruction = "P" + str(self.number) + " READ:" + instruction[1] #Instrucion de read
-                self.currentInstructionList = ["P" + str(self.number) + " READ:" + instruction[1]]
+                self.currentInstruction = "P" + str(self.number) + " READ: " + instruction[1] #Instrucion de read
                 actions = self.controller.readPetition(int(instruction[1], 2)) #Se agrega la accion
             #self.log(self.currentInstruction + " cache: |" + self.controller.l1cache.getstring())
             self.interfaceData.lastInstruction = self.currentInstruction #se agrega la isntruccion
@@ -249,3 +242,4 @@ class Cpu:
                 if self.continueProcess:
                     break
             time.sleep(self.interfaceData.period) #Espera el tiempo del periodo
+
