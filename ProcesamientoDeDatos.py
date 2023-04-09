@@ -12,7 +12,7 @@ class InterfaceData:
     def __init__(self):
         self.mode="time"
         self.lastInstruction=""
-        self.period = 10
+        self.period = 2
 
 """
 /*
@@ -232,14 +232,15 @@ class Cpu:
     */
     """
     def applyMode(self):
-        if self.interfaceData.mode == "manual":#Revisa si el tipo de ejecucion es manual
-            while True: 
-                if self.nextCycle:
-                    self.nextCycle = False #Se cambia el siguiente ciclo
-                    break
-        else:
-            while True:
-                if self.continueProcess:
-                    break
-            time.sleep(self.interfaceData.period) #Espera el tiempo del periodo
+#        if self.interfaceData.mode == "manual":#Revisa si el tipo de ejecucion es manual
+#            print('estoy en modo manual')
+#            while True: 
+#                if self.nextCycle:
+#                    self.nextCycle = False #Se cambia el siguiente ciclo
+#                    break
+#        else:
+        while True:
+            if self.continueProcess:
+                break
+        time.sleep(self.interfaceData.period) #Espera el tiempo del periodo
 

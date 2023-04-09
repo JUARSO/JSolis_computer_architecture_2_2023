@@ -4,9 +4,9 @@ from TransferenciaDeDatos import Bus
 from ProcesamientoDeDatos import Cpu, InterfaceData
 from threading import Lock, Thread 
 import threading
+import time
 
 
-global text0
 
 
 # Creamos el lock
@@ -25,7 +25,6 @@ bus.conections.append(procesor2)
 bus.conections.append(procesor3)
 
 
-semaphore = threading.Semaphore(1)
 
 
 def createProcessorsAux(processor):
@@ -37,44 +36,6 @@ def createProcessorsThreads():
     t2 = Thread(target=createProcessorsAux, args=(procesor1,), daemon=True).start()
     t3 = Thread(target=createProcessorsAux, args=(procesor2,), daemon=True).start()
     t4 = Thread(target=createProcessorsAux, args=(procesor3,), daemon=True).start()
-
-
-
-def Inicio():
-    createProcessorsThreads()
-
-def pausar():
-    procesor0.continueProcess = False
-
-
-def reactivar():
-    procesor0.continueProcess = True
-
-def stepByStep():
-    thread0 = Thread(target = createProcessorsAux, args = (procesor0,), name='p0')
-    thread1 = Thread(target = createProcessorsAux, args = (procesor1,),name='p1')
-    thread2 = Thread(target = createProcessorsAux, args = (procesor2,), name='p2')
-    thread3 = Thread(target = createProcessorsAux, args = (procesor3,),name= 'p3')
-    # start threads
-    thread0.start()
-    thread1.start()
-    thread2.start()
-    thread3.start()
-
-    for t in threading.enumerate():
-        if t.getName() == 'p0':
-            t._stop() 
-    for t in threading.enumerate():
-        if t.getName() == 'p1':
-            t._stop()
-    for t in threading.enumerate():
-        if t.getName() == 'p2':
-            t._stop() 
-    for t in threading.enumerate():
-        if t.getName() == 'p3':
-            t._stop()             
-             
-
 
 
 # Crear la ventana
@@ -206,10 +167,6 @@ tabla3Intruciones.heading("Instrucion generada", text="Instrucion generada")
 tabla3Intruciones.column("Instrucion ejecutada", width=135)
 tabla3Intruciones.column("Instrucion generada", width=135)
 
-
-
-
-
 # Crear el título de la tabla para el procesador #1
 titulo_tabla3 = ttk.Label(ventana, text="Procesador 4", font=("Arial", 12))
 
@@ -232,57 +189,47 @@ tablaMemoria.column("Valor", width=135)
 
 # Crear el título de la tabla para el procesador #1
 memoriaLabel = ttk.Label(ventana, text="Memoria", font=("Arial", 12))
-ultimaEjecucionEjecutada = ttk.Label(ventana, text='Ultima instrucion ejecutada:', font=('Arial', 12))
 # Posicionar la tabla y el título en la ventana para el procesador #1                   +++y 5-*/.7b53c e6
-ultimaEjecucionEjecutada.place(x=20, y= 450)
-tablaMemoria.place(x=20, y=270, width=270, height=160)
+tablaMemoria.place(x=20, y=270, width=270, height=200)
 memoriaLabel.place(x=20, y=240)
 
 """
 ------------------------------------- Botones --------------------------------------------------------------
 """
 
-def setModo():
-    interfaceData.mode = "manual"
 
-def setInstruction():
-    if interfaceData.mode=="manual" or not procesor0.continueProcess:
-        instrucion = entradaDeTexto.get()
-        instrucionManual = instrucion.split(' ')
-        if( instrucionManual[1]== 'write'):
-            processorlist[instrucionManual[0]].manualInstruction = [instrucionManual[1], instrucionManual[2], instrucionManual[3]]
-            print ("This is a Escritura")
-        elif( instrucionManual[1]== 'read'):
-            processorlist[instrucionManual[0]].manualInstruction = [instrucionManual[1], instrucionManual[2]]
-        if( instrucionManual[1]== 'calc'):
-            processorlist[instrucionManual[0]].manualInstruction = [instrucionManual[1]]
+def pausa():
+    for p in processorlist:
+        p.continueProcess = False
+    print("Pausa")
 
+def Inicio():
+    createProcessorsThreads()
+    print('La aplicacion se ha iniciado')
 
+def setTimeMode():
+    for p in processorlist:
+        p.continueProcess = True 
+    print('Modo automatico')
 
+def nextCycle():
+    for p in processorlist:
+        p.continueProcess = True 
+    time.sleep(1)
+    for p in processorlist:
+        p.continueProcess = False
+    print('Paso a Paso')
 
-
-botonPausa = ttk.Button(ventana, text="Pausa", command=pausar)
 botonDeInicio = ttk.Button(ventana, text="Iniciar", command=Inicio)
-botonPasoAPaso =  ttk.Button(ventana, text="Paso a Paso", command=stepByStep)
-#botonManual =  ttk.Button(ventana, text="Mensajes Manuales", command=setModo)
-botonAutomatico =  ttk.Button(ventana, text="Automatico", command=reactivar)
-botonEnviar =  ttk.Button(ventana, text="Enviar", command=setInstruction)
+botonDePausa =  ttk.Button(ventana, text="Pausa", command=pausa)
+botonPasoAPaso = ttk.Button(ventana, text='Paso a paso', command=nextCycle)
+botonAutomatico =  ttk.Button(ventana, text="Automatico", command=setTimeMode)
 # Ejecutar el bucle principal de la ventana
 
-botonPausa.place(x=400, y = 300)
-botonPasoAPaso.place(x= 500, y = 300)
-botonAutomatico.place(x=600, y = 300)
-#botonManual.place(x=700, y = 300)
-botonDeInicio.place(x=700, y= 300)
-
-ColoqueLaInstruccion = tk.Label(ventana, text="Introduzca la Instruccion:", font=("Arial", 12))
-entradaDeTexto = tk.Entry(ventana, width=40)
-
-
-
-ColoqueLaInstruccion.place(x=400, y=340)
-entradaDeTexto.place(x=400,y=370)
-botonEnviar.place(x=650, y=370)
+botonDeInicio.place(x=400, y = 240)
+botonDePausa.place(x= 500, y = 240)
+botonPasoAPaso.place(x=600, y = 240)
+botonAutomatico.place(x=700, y = 240)
 
 
 
@@ -307,23 +254,23 @@ def actualizacionDeDatos():
     tabla3Cache.delete(*tabla3Cache.get_children())
     for i in range (len(textAux)):
         tabla3Cache.insert("", "end", values=(textAux[i]))
-    ventana.after(2, actualizacionDeDatos)
+    ventana.after(1, actualizacionDeDatos)
 
 
 def actualizacionDeInstruciones():
     #Procesador 0
     tabla0Intruciones.delete(*tabla0Intruciones.get_children())
-    tabla0Intruciones.insert("", "end", values=(procesor0.currentInstruction, procesor0.lastInstruction))
+    tabla0Intruciones.insert("", "end", values=(procesor0.lastInstruction, procesor0.currentInstruction))
     #Procesador 1
     tabla1Intruciones.delete(*tabla1Intruciones.get_children())
-    tabla1Intruciones.insert("", "end", values=(procesor1.currentInstruction, procesor1.lastInstruction))
+    tabla1Intruciones.insert("", "end", values=(procesor1.lastInstruction, procesor1.currentInstruction))
     #Procesador 2
     tabla2Intruciones.delete(*tabla2Intruciones.get_children())
-    tabla2Intruciones.insert("", "end", values=(procesor2.currentInstruction, procesor2.lastInstruction))
+    tabla2Intruciones.insert("", "end", values=(procesor2.lastInstruction, procesor2.currentInstruction))
     #Procesador 3
     tabla3Intruciones.delete(*tabla3Intruciones.get_children())
-    tabla3Intruciones.insert("", "end", values=(procesor3.currentInstruction, procesor3.lastInstruction))
-    ventana.after(2, actualizacionDeInstruciones)
+    tabla3Intruciones.insert("", "end", values=(procesor3.lastInstruction, procesor3.currentInstruction))
+    ventana.after(1, actualizacionDeInstruciones)
 
 
 def ActualizarMemoria():
@@ -331,7 +278,7 @@ def ActualizarMemoria():
     tablaMemoria.delete(*tablaMemoria.get_children())
     for i in range (len(textAux)):
         tablaMemoria.insert("", "end", values=(textAux[i]))
-    ventana.after(2, ActualizarMemoria)
+    ventana.after(1, ActualizarMemoria)
 
 actualizacionDeInstruciones()
 actualizacionDeDatos()
