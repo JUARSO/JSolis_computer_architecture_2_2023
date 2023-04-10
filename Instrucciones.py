@@ -7,11 +7,11 @@ La funncion de generar instrucion utiliza una distribucion geometrica por lo cua
 entre el 0 y el 2 para generar el tipo de instruciopn
 '''
 def generarInstucion():
-    valorInstruccion = np.random.randint(0, 3) #Distribucion geometrica
-    if valorInstruccion == 0:
-        return generarRead()
+    valorInstruccion = np.random.randint(0, 3) #Distribucion geometrica para calcular un valor entre 0 y 3
+    if valorInstruccion == 0: 
+        return generarRead() #Se genera un read
     if valorInstruccion ==1:
-        return generarWrite()
+        return generarWrite() #Se genera un write
     else:
         return ['calc']
     
@@ -21,7 +21,7 @@ se vean a terminar de generar los valores necesario como el bloque de memoria en
 """
     
 def generarRead():
-    memoryBlock = round(np.random.randint(0, 799)) // 100
+    memoryBlock = round(np.random.randint(0, 8)) # Calcula 
     memoryBlockBin = decimalToBinario(memoryBlock, 3)
     return ["read", memoryBlockBin]
 
@@ -33,7 +33,7 @@ y el valor del dato en hexadecimal
 """
 
 def generarWrite():
-    memoryBlock = round(np.random.randint(0, 799)) // 100
+    memoryBlock = round(np.random.randint(0, 8))
     memoryBlockBin = decimalToBinario(memoryBlock, 3)
     data = round(np.random.uniform(0, 65535))
     dataHexa = decimalToHexadecimal(data, 16)
