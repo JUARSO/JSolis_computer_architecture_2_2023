@@ -17,12 +17,12 @@ class Bus:
     */
     """
     def writeToMemory(self, address, data):
-        block = self.memory.getBlockByNumber(address)
-        block.setData(data)
+        block = self.memory.getBlockByNumber(address) #Seleciona el bloque donde desea escribir
+        block.setData(data) #Escribe en memoria
     """
     /*
     En caso de querer leer un dato en la direcion de memoria
     */
     """
     def readFromMemory(self, address):
-        return self.memory.getBlockByNumber(address).getData()
+        return self.memory.getBlockByNumber(address).getData() #Se accede en a la direcion de memoria para leer un dato

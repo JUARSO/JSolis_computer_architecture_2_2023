@@ -13,12 +13,15 @@ import time
 lock = Lock()
 bus = Bus()
 interfaceData = InterfaceData()
+
+#Se crean los 4 procesaodres
 procesor0 = Cpu(0, bus, lock, interfaceData)
 procesor1 = Cpu(1, bus, lock, interfaceData)
 procesor2 = Cpu(2, bus, lock, interfaceData)
 procesor3 = Cpu(3, bus, lock, interfaceData)
 processorlist = [procesor0, procesor1, procesor2, procesor3]
 
+#Los procesadores se conectan el bus
 bus.conections.append(procesor0)
 bus.conections.append(procesor1)
 bus.conections.append(procesor2)
@@ -31,6 +34,7 @@ def createProcessorsAux(processor):
     processor.getInstruction()
 
 
+#Creacion de los hilos
 def createProcessorsThreads():
     t1 = Thread(target=createProcessorsAux, args=(procesor0,), daemon=True).start()
     t2 = Thread(target=createProcessorsAux, args=(procesor1,), daemon=True).start()

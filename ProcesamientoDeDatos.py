@@ -154,15 +154,8 @@ class Cpu:
     */
     """
     def getInstruction(self):
-
-
         while True:
-            if not self.manualInstruction:#Instruciones generadas de manera aleatoria con la distribucion geometrica
-                instruction = generarInstucion() #Se genera una nueva instrucion al proceso
-            else:
-                instruction = self.manualInstruction #En caso que la instrucion se agregada de manera manual
-                self.manualInstruction = [] #Se hace una lista de instrucines manuales
-
+            instruction = generarInstucion() #Se genera una nueva instrucion al proceso
             actions = []
             if instruction[0] == "calc": #Si la instrucin es CALC
                 self.currentInstruction = "P" + str(self.number) + " CALC: " #Instrucin Actua;
@@ -232,13 +225,6 @@ class Cpu:
     */
     """
     def applyMode(self):
-#        if self.interfaceData.mode == "manual":#Revisa si el tipo de ejecucion es manual
-#            print('estoy en modo manual')
-#            while True: 
-#                if self.nextCycle:
-#                    self.nextCycle = False #Se cambia el siguiente ciclo
-#                    break
-#        else:
         while True:
             if self.continueProcess:
                 break
